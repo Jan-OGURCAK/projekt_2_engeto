@@ -11,17 +11,17 @@ def hlavicka():
     """
     Fukce je prostým výpisem hlavičky programu
     """
-    if name_is_main:
-        print("Hi there!")
-        print("-" * 48)
-        print(f"I've generated a random {glob['delka_cisla']} digit number for you.")
-        print("Let's play a bulls and cows game.")
-        print("-" * 48)
-        if glob["test_mode"]:
-            print("#" * 48)
-            print('This is a test mode (glob["test_mode"] = True)')
-            print(f"Searched number is {glob['hadane_cislo']}")
-            print("#" * 48)
+    
+    print("Hi there!")
+    print("-" * 48)
+    print(f"I've generated a random {glob['delka_cisla']} digit number for you.")
+    print("Let's play a bulls and cows game.")
+    print("-" * 48)
+    if glob["test_mode"]:
+        print("#" * 48)
+        print('This is a test mode (glob["test_mode"] = True)')
+        print(f"Searched number is {glob['hadane_cislo']}")
+        print("#" * 48)
 
         print("Enter a number:")
 
@@ -84,9 +84,9 @@ def nacti_cislo() -> bool:
     Parameters:
     :cislo_OK: bool navratovy parametr - načtení čísla OK
     """
-    if name_is_main:
-        print("-" * 48)
-        print(">>>", end=" ")
+    
+    print("-" * 48)
+    print(">>>", end=" ")
 
     vstup = input()
 
@@ -110,7 +110,7 @@ def nacti_cislo() -> bool:
         err_text = f"({vstup}) - digits must not be repeated!"
         cislo_OK = False
 
-    if not cislo_OK and name_is_main:  # V zadaném stringu je chyba -> hlášení a pryč
+    if not cislo_OK:  # V zadaném stringu je chyba -> hlášení a pryč
         print(err_text)
         print(f"{glob['delka_cisla']} digit number is expected.")
         print("  - The number must not start with zero!")
@@ -154,14 +154,14 @@ def vypis_zapati():  # Prostý výpis zápatí programu del zadání
     """
     Funkce vypíše zápatí programu
     """
-    if name_is_main:
-        print("-" * 48)
-        print("Correct, you've guessed the right number")
+    
+    print("-" * 48)
+    print("Correct, you've guessed the right number")
 
-        print(f"in {glob['pokusu']} guesses!", "\n")
-        print(f"Game time is {glob['total_time_hra']} seconds")
-        print("-" * 48)
-        print("That's amazing!", "\n")
+    print(f"in {glob['pokusu']} guesses!", "\n")
+    print(f"Game time is {glob['total_time_hra']} seconds")
+    print("-" * 48)
+    print("That's amazing!", "\n")
 
     return
 
@@ -205,30 +205,29 @@ def vypis_historie():  # Výpis historie jednotlivých kol hry
     Prosty vypis historie hry
     """
 
-    if name_is_main:
-        print("\n")
-        print("GAME HISTORY".center(48, " "))
-        print("============".center(48, " "))
-        print("\n")
+    print("\n")
+    print("GAME HISTORY".center(48, " "))
+    print("============".center(48, " "))
+    print("\n")
 
-        print("Round No   Number    Bulls   Cows    Time")
+    print("Round No   Number    Bulls   Cows    Time")
 
-        print("-" * 48)
+    print("-" * 48)
 
-        for key, polozka in glob["historie"].items():  # Prevod položek dict() na str a formátování
-            veta = (
-                str(key).rjust(4, " ")
-                + str(polozka["hled_cislo"]).rjust(12, " ")
-                + str(polozka["bulls"]).rjust(8, " ")
-                + str(polozka["cows"]).rjust(8, " ")
-                + str(polozka["cas_kola"]).rjust(8, " ")
-                + " s"
+    for key, polozka in glob["historie"].items():  # Prevod položek dict() na str a formátování
+        veta = (
+            str(key).rjust(4, " ")
+            + str(polozka["hled_cislo"]).rjust(12, " ")
+            + str(polozka["bulls"]).rjust(8, " ")
+            + str(polozka["cows"]).rjust(8, " ")
+            + str(polozka["cas_kola"]).rjust(8, " ")
+            + " s"
             )
 
-            print(veta)
+        print(veta)
 
-        print("-" * 48)
-        print("Total game time:" + glob["total_time_hra"].rjust(24, " ") + " s")
+    print("-" * 48)
+    print("Total game time:" + glob["total_time_hra"].rjust(24, " ") + " s")
 
 
 # =========================================================
@@ -253,32 +252,31 @@ glob = {
     "historie": dict(),
 }
 
-# Zjistí jestli se jedná o root programu a nastaví globální proměnnou "name_is_main"
-name_is_main = True if (__name__ == "__main__") else False
+if (__name__ == "__main__"):
 
-dej_hadane_cislo()  # Vygeneruje n - místný int: (dle nastavení glob["delka_cisla"])
+    dej_hadane_cislo()  # Vygeneruje n - místný int: (dle nastavení glob["delka_cisla"])
 
-hlavicka()  # Vypíše hlavičku programu se stručnými pravidly.
+    hlavicka()  # Vypíše hlavičku programu se stručnými pravidly.
 
-glob["start_time_hra"] = time.time()  # Uložení času začátku hry
+    glob["start_time_hra"] = time.time()  # Uložení času začátku hry
 
-while (glob["bulls"] != glob["delka_cisla"]):  # Hlavní smyčka programu. Program skončí když jsou všechna čísla "bull"
-    glob["start_time_pokus"] = time.time()  # Uložení času začátku kola
+    while (glob["bulls"] != glob["delka_cisla"]):  # Hlavní smyčka programu. Program skončí když jsou všechna čísla "bull"
+        glob["start_time_pokus"] = time.time()  # Uložení času začátku kola
 
-    while (not nacti_cislo()):  # Smyčka kola hry. Opakuje se dokud nedostane číslo dle pravidel
-        pass
+        while (not nacti_cislo()):  # Smyčka kola hry. Opakuje se dokud nedostane číslo dle pravidel
+            pass
 
-    glob["bulls"] = 0
-    glob["cows"] = 0
+        glob["bulls"] = 0
+        glob["cows"] = 0
 
-    vyhodnot()  # Vyhodnoti kolo hry a nastavi promenne glob["bulls"] promenne glob["bulls"]
-    glob["pokusu"] += 1 # Inc cisla kola
+        vyhodnot()  # Vyhodnoti kolo hry a nastavi promenne glob["bulls"] promenne glob["bulls"]
+        glob["pokusu"] += 1 # Inc cisla kola
 
-    zapis_radek_historie(glob["pokusu"])  # Zapise vysledek kola pro pozdejsi vypis
+        zapis_radek_historie(glob["pokusu"])  # Zapise vysledek kola pro pozdejsi vypis
 
-trvani = (time.time() - glob["start_time_hra"])  # Hra končí, vypočtem jeji delku..
-glob["total_time_hra"] = str(round(trvani, 1))  # zaokrouhlíme na 1 desetinné misto a zapíšem
+    trvani = (time.time() - glob["start_time_hra"])  # Hra končí, vypočtem jeji delku..
+    glob["total_time_hra"] = str(round(trvani, 1))  # zaokrouhlíme na 1 desetinné misto a zapíšem
 
-vypis_zapati()  # Vypis standartního zápatí dle zadání
+    vypis_zapati()  # Vypis standartního zápatí dle zadání
 
-vypis_historie()  # Výpis historie jednotlivých kol
+    vypis_historie()  # Výpis historie jednotlivých kol
